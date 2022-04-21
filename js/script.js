@@ -1,5 +1,6 @@
 const main = document.querySelector('.main');
 const scoreElem = document.getElementById('score');
+const levelElem = document.getElementById('level');
 
 
 let playfield = [
@@ -25,8 +26,36 @@ let playfield = [
    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 ];
 
-let gameSpeed = 1000;
 let score = 0;
+let currentLevel = 1;
+let possibleLevels = {
+   1: {
+      scorePerLine: 10,
+      speed: 400,
+      nextLevelScore: 30
+   },
+   2: {
+      scorePerLine: 15,
+      speed: 300,
+      nextLevelScore: 500
+   },
+   3: {
+      scorePerLine: 20,
+      speed: 200,
+      nextLevelScore: 1000
+   },
+   4: {
+      scorePerLine: 30,
+      speed: 100,
+      nextLevelScore: 2000
+   },
+   5: {
+      scorePerLine: 50,
+      speed: 50,
+      nextLevelScore: Infinity
+   },
+}
+
 let activeTetro = {
    x: 0,
    y: 0,
@@ -168,6 +197,10 @@ function removeFullLines() {
          break;
    }
    scoreElem.innerHTML = score;
+   if(score >= possibleLevels[currentLevel].nextLevelScore) {
+      currentLevel++;
+      levelElem.innerHTML = currentLevel;
+   }
 }
 
 function getNewTetro() {
@@ -223,6 +256,9 @@ document.onkeydown = function(e) {
    draw();
 }
 
+scoreElem.innerHTML = score;
+levelElem.innerHTML = currentLevel;
+
 addActiveTetro();
 
 draw();
@@ -231,7 +267,7 @@ function startGame() {
    moveTetroDown();
    addActiveTetro();
    draw();
-   setTimeout(startGame, gameSpeed);
+   setTimeout(startGame, possibleLevels[currentLevel].speed);
 }
 
-setTimeout(startGame, gameSpeed);
+setTimeout(startGame, possibleLevels[currentLevel].speed );
