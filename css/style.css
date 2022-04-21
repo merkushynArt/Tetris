@@ -8,20 +8,27 @@ body {
    background: #000;
    color: #fff;
    font-family: Arial, Helvetica, sans-serif;
+   height: 100vh;
+   display: flex;
+   align-items: center;
+   justify-content: center;
 }
 
 #game {
-   padding-top: 20px;
    width: 320px;
-   margin: auto;
-   font-size: 40px;
+   font-size: 18px;
+}
+
+.game__info {
+   display: flex;
+   justify-content: space-between;
 }
 
 .main {
-   width: 320px;
-   height: 620px;
-   margin: 20px auto 0;
-   border: 10px solid #fff;
+   width: 310px;
+   height: 610px;
+   margin: 0 auto;
+   border: 5px solid #fff;
    font-size: 0;
 }
 
@@ -29,7 +36,7 @@ body {
    display: inline-block;
    width: 30px;
    height: 30px;
-   border: 1px solid #fff;
+   border: 1px solid #616161;
 }
 
 .movingCell {
@@ -38,4 +45,20 @@ body {
 
 .fixedCell {
    background: #ff0000;
+}
+
+.control {
+   display: flex;
+   justify-content: space-between;
+}
+
+.control button {
+   width: 90px;
+   height: 36px;
+   border-radius: 20px;
+}
+
+
+@media(max-width: 500px) {
+
 }

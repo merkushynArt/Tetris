@@ -2,6 +2,12 @@ const main = document.querySelector('.main');
 const scoreElem = document.getElementById('score');
 const levelElem = document.getElementById('level');
 
+//mobile
+const left = document.getElementById('left');
+const right = document.getElementById('right');
+const rotate = document.getElementById('rotate');
+const pushDown = document.getElementById('push');
+
 
 let playfield = [
    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -255,6 +261,24 @@ document.onkeydown = function(e) {
    addActiveTetro();
    draw();
 }
+
+//mobile
+left.onclick = function() {
+   activeTetro.x -= 1;
+   if(hasCollisions()) {
+      activeTetro.x += 1;
+   }
+}
+right.onclick = function() {
+   activeTetro.x += 1;
+   if(hasCollisions()) {
+      activeTetro.x -= 1;
+   }
+}
+rotate.onclick = function() {
+   rotateTetro();
+}
+
 
 scoreElem.innerHTML = score;
 levelElem.innerHTML = currentLevel;
