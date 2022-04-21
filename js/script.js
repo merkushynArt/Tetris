@@ -1,5 +1,5 @@
 const main = document.querySelector('.main');
-
+const scoreElem = document.getElementById('score');
 
 
 let playfield = [
@@ -26,6 +26,7 @@ let playfield = [
 ];
 
 let gameSpeed = 1000;
+let score = 0;
 let activeTetro = {
    x: 0,
    y: 0,
@@ -136,6 +137,7 @@ function hasCollisions() {
 
 function removeFullLines() {
    let canRemoveLine = true;
+   let filledLines = 0;
    for(let y = 0; y < playfield.length; y++) {
       for(let x = 0; x < playfield[y].length; x++) {
          if(playfield[y][x] !== 2) {
@@ -146,9 +148,26 @@ function removeFullLines() {
       if(canRemoveLine) {
          playfield.splice(y, 1);
          playfield.splice(0, 0, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+         filledLines += 1;
       }
       canRemoveLine = true;
    }
+
+   switch(filledLines) {
+      case 1:
+         score += 10;
+         break;
+      case 2:
+         score += 10 * 3;
+         break;
+      case 3:
+         score += 10 * 6;
+         break;
+      case 4:
+         score += 10 * 12;
+         break;
+   }
+   scoreElem.innerHTML = score;
 }
 
 function getNewTetro() {
@@ -173,6 +192,7 @@ function moveTetroDown() {
    if(hasCollisions()) {
       activeTetro.y -= 1;
       fixTetro();
+      removeFullLines();
       activeTetro.shape = getNewTetro();
       activeTetro.x = Math.floor((10 - activeTetro.shape[0].length) / 2);
       activeTetro.y = 0;
