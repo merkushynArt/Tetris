@@ -62,16 +62,6 @@ let possibleLevels = {
    },
 }
 
-let activeTetro = {
-   x: 0,
-   y: 0,
-   shape: [
-      [1, 1, 1],
-      [0, 1, 0],
-      [0, 0, 0],
-   ],
-}
-
 let figures = {
    O: [
       [1, 1],
@@ -109,6 +99,8 @@ let figures = {
       [0, 0, 0],
    ],
 }
+
+let activeTetro = getNewTetro();
 
 function draw() {
    let mainInnerHTML = '';
@@ -190,10 +182,10 @@ function removeFullLines() {
 
    switch(filledLines) {
       case 1:
-         score += 10;
+         score += possibleLevels[currentLevel].scorePerLine;
          break;
       case 2:
-         score += 10 * 3;
+         score += possibleLevels[currentLevel].scorePerLine * 3;
          break;
       case 3:
          score += 10 * 6;
@@ -212,7 +204,13 @@ function removeFullLines() {
 function getNewTetro() {
    const posibleFigures = 'IOLJTSZ';
    const rand = Math.floor(Math.random() * 7);
-   return figures[posibleFigures[rand]];
+   const newTetro = figures[posibleFigures[rand]];
+
+   return {
+      x: Math.floor((10 - newTetro[0].length) / 2),
+      y: 0,
+      shape: newTetro,
+   }
 }
 
 function fixTetro() {
@@ -232,9 +230,7 @@ function moveTetroDown() {
       activeTetro.y -= 1;
       fixTetro();
       removeFullLines();
-      activeTetro.shape = getNewTetro();
-      activeTetro.x = Math.floor((10 - activeTetro.shape[0].length) / 2);
-      activeTetro.y = 0;
+      activeTetro = getNewTetro();
    }
 }
 
