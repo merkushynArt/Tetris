@@ -1,15 +1,11 @@
 const main = document.querySelector('.main');
 const scoreElem = document.getElementById('score');
 const levelElem = document.getElementById('level');
-
-//mobile
-const left = document.getElementById('left');
-const right = document.getElementById('right');
-const rotate = document.getElementById('rotate');
-const pushDown = document.getElementById('push');
+const nextTetroEl = document.getElementById('next-tetro');
 
 
-let playfield = [
+let playfield = //Array(20).fill(Array(10).fill(0))
+[
    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -101,6 +97,7 @@ let figures = {
 }
 
 let activeTetro = getNewTetro();
+let nextTetro = getNewTetro();
 
 function draw() {
    let mainInnerHTML = '';
@@ -116,7 +113,22 @@ function draw() {
          }
       }
    }
-   main.innerHTML = mainInnerHTML
+   main.innerHTML = mainInnerHTML;
+}
+
+function drawNextTetro() {
+   let nextTetroInnerHTML = '';
+   for(let y = 0; y < nextTetro.shape.length; y++) {
+      for(let x = 0; x < nextTetro.shape[y].length; x++) {
+         if(nextTetro.shape[y][x]) {
+            nextTetroInnerHTML += '<div class="cell movingCell"></div>';
+         } else {
+            nextTetroInnerHTML += '<div class="cell"></div>';
+         }
+      }
+      nextTetroInnerHTML += '<br/>';
+   }
+   nextTetroEl.innerHTML = nextTetroInnerHTML;
 }
 
 function removePrevActiveTetro() {
@@ -230,7 +242,18 @@ function moveTetroDown() {
       activeTetro.y -= 1;
       fixTetro();
       removeFullLines();
-      activeTetro = getNewTetro();
+      activeTetro = nextTetro;
+      nextTetro = getNewTetro();
+   }
+}
+
+function dropTetro() {
+   for(let y = activeTetro.y; y < playfield.length; y++) {
+      activeTetro.y += 1;
+      if(hasCollisions()) {
+         activeTetro.y -= 1;
+         break;
+      }
    }
 }
 
@@ -253,26 +276,12 @@ document.onkeydown = function(e) {
       moveTetroDown();
    } else if(e.keyCode === 38) {
       rotateTetro();
+   } else if(e.keyCode === 32) {
+      dropTetro();
    }
    addActiveTetro();
    draw();
-}
-
-//mobile
-left.onclick = function() {
-   activeTetro.x -= 1;
-   if(hasCollisions()) {
-      activeTetro.x += 1;
-   }
-}
-right.onclick = function() {
-   activeTetro.x += 1;
-   if(hasCollisions()) {
-      activeTetro.x -= 1;
-   }
-}
-rotate.onclick = function() {
-   rotateTetro();
+   drawNextTetro();
 }
 
 
@@ -283,10 +292,13 @@ addActiveTetro();
 
 draw();
 
+drawNextTetro();
+
 function startGame() {
    moveTetroDown();
    addActiveTetro();
    draw();
+   drawNextTetro();
    setTimeout(startGame, possibleLevels[currentLevel].speed);
 }
 
