@@ -5,6 +5,10 @@ const nextTetroElem = document.getElementById("next-tetro");
 const startBtn = document.getElementById("start");
 const pauseBtn = document.getElementById("pause");
 const gameOver = document.getElementById("game-over");
+const leftBtn = document.getElementById("left");
+const rightBtn = document.getElementById("right");
+const rotBtn = document.getElementById("rot");
+const pushBtn = document.getElementById("pushDown");
 
 let playfield = [
    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -296,6 +300,7 @@ function reset() {
    ];
    draw();
    gameOver.style.display = "block";
+   startBtn.innerHTML = 'restart';
 }
 
 document.onkeydown = function (e) {
@@ -317,10 +322,35 @@ document.onkeydown = function (e) {
       } else if (e.keyCode === 32) {
          dropTetro();
       }
-
       updateGameState();
    }
 };
+
+leftBtn.onclick = function(){
+   activeTetro.x -= 1;
+   if (hasCollisions()) {
+      activeTetro.x += 1;
+   }
+   updateGameState();
+}
+
+rightBtn.onclick = () => {
+   activeTetro.x += 1;
+   if (hasCollisions()) {
+      activeTetro.x -= 1;
+   }
+   updateGameState();
+}
+
+pushBtn.onclick = () => {
+   dropTetro();
+   updateGameState();
+}
+
+rotBtn.onclick = () => {
+   rotateTetro();
+   updateGameState();
+}
 
 function updateGameState() {
    if (!isPaused) {
@@ -329,6 +359,7 @@ function updateGameState() {
       drawNextTetro();
    }
 }
+
 
 pauseBtn.addEventListener("click", (e) => {
    if (e.target.innerHTML === "Pause") {
@@ -340,6 +371,16 @@ pauseBtn.addEventListener("click", (e) => {
    }
    isPaused = !isPaused;
 });
+
+
+const startTheGame = confirm('Ты готов к игре?');
+if(startTheGame) {
+   startBtn.innerHTML = 'speed';
+   isPaused = false;
+   gameTimerID = setTimeout(startGame, possibleLevels[currentLevel].speed);
+   gameOver.style.display = "none";
+}
+
 
 startBtn.addEventListener("click", (e) => {
    e.target.innerHTML = "Speed";
