@@ -8,7 +8,7 @@
    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-   
+   <!--
    <div id="game">
       <div class="game-wrapper">
          <div>Level: <span id="level">0</span></div>
@@ -26,7 +26,42 @@
          <button id="rot"><i class="fa-solid fa-arrow-rotate-right"></i></button>
          <button id="right"><i class="fa-solid fa-arrow-right"></i></button>
       </div>
+      <div class="start-game">
+         <img src="images/start.jpg" alt="">
+         <button id="start-game">start the game</button>
+      </div>
       <div id="game-over">game over</div>
+   </div>
+-->
+   <div class="start-game">
+
+      <button id="start-game" class="start-game__btn">start the game</button>
+
+      <div id="game">
+         <div class="game-wrapper">
+            <div>Level: <span id="level">0</span></div>
+            <div id="next-tetro"></div>
+            <div>Score: <span id="score">0</span></div>
+         </div>
+         <div class="game-wrapper control" style="display: none;">
+            <button id="pause">Pause</button>
+         </div>
+         <div class="main"></div>
+         <div class="mobile">
+            <div class="mobile-wrapper">
+               <button id="left" class="btn-control"><i class="fa-solid fa-arrow-left"></i></button>
+               <button id="pushDown" class="btn-control"><i class="fa-solid fa-arrow-down"></i></button>
+            </div>
+            <div class="mobile-wrapper">
+               <button id="right" class="btn-control"><i class="fa-solid fa-arrow-right"></i></button>
+               <button id="rot" class="btn-control"><i class="fa-solid fa-arrow-rotate-right"></i></button>
+            </div>
+         </div>
+         <div id="game-over">
+            game over
+            <button id="reload" class="reload"><i class="fa-solid fa-arrow-rotate-right"></i></button>
+         </div>
+      </div>
    </div>
 
    <script src="https://kit.fontawesome.com/9095435ee9.js" crossorigin="anonymous"></script>

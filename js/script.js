@@ -1,14 +1,17 @@
+const game = document.getElementById('game');
 let main = document.querySelector(".main");
 const scroeElem = document.getElementById("score");
 const levelElem = document.getElementById("level");
 const nextTetroElem = document.getElementById("next-tetro");
-const startBtn = document.getElementById("start");
 const pauseBtn = document.getElementById("pause");
 const gameOver = document.getElementById("game-over");
 const leftBtn = document.getElementById("left");
 const rightBtn = document.getElementById("right");
 const rotBtn = document.getElementById("rot");
 const pushBtn = document.getElementById("pushDown");
+const startField = document.querySelector('.start-game');
+const startGameBtn = document.getElementById('start-game');
+const reload = document.getElementById('reload');
 
 let playfield = [
    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -303,6 +306,10 @@ function reset() {
    startBtn.innerHTML = 'restart';
 }
 
+reload.onclick = () => {
+   location.reload();
+}
+
 document.onkeydown = function (e) {
    if (!isPaused) {
       if (e.keyCode === 37) {
@@ -360,7 +367,7 @@ function updateGameState() {
    }
 }
 
-
+/*
 pauseBtn.addEventListener("click", (e) => {
    if (e.target.innerHTML === "Pause") {
       e.target.innerHTML = "Continue";
@@ -371,23 +378,15 @@ pauseBtn.addEventListener("click", (e) => {
    }
    isPaused = !isPaused;
 });
+*/
 
-
-const startTheGame = confirm('Ты готов к игре?');
-if(startTheGame) {
-   startBtn.innerHTML = 'speed';
+startGameBtn.onclick = function() {
+   startGameBtn.style.display = 'none';
+   game.style.display = 'block';
    isPaused = false;
    gameTimerID = setTimeout(startGame, possibleLevels[currentLevel].speed);
    gameOver.style.display = "none";
 }
-
-
-startBtn.addEventListener("click", (e) => {
-   e.target.innerHTML = "Speed";
-   isPaused = false;
-   gameTimerID = setTimeout(startGame, possibleLevels[currentLevel].speed);
-   gameOver.style.display = "none";
-});
 
 scroeElem.innerHTML = score;
 levelElem.innerHTML = currentLevel;
